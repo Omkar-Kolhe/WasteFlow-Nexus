@@ -1,0 +1,229 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────────────────────
+   WASTEFLOW NEXUS — global foundation
+   Dark-first. Near-black foundation, restrained luminous accents.
+   ───────────────────────────────────────────────────────────── */
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    --wf-signal: 79 227 193;
+
+    --color-signal: 79 227 193;
+    --color-signal-dim: 43 168 142;
+    --color-signal-deep: 14 42 38;
+    --color-flow: 108 155 255;
+    --color-flow-dim: 61 107 209;
+    --color-warn: 229 180 76;
+    --color-warn-dim: 140 107 35;
+    --color-critical: 226 89 91;
+    --color-critical-dim: 138 47 49;
+    --color-organic: 143 208 106;
+    --color-polymer: 169 140 255;
+    --color-glass: 95 212 227;
+
+    /* Dark Mode Defaults */
+    --color-void: 4 5 6;
+    --color-base: 8 9 11;
+    --color-panel: 11 13 16;
+    --color-raised: 16 19 23;
+    
+    --color-ink: 233 236 241;
+    --color-ink-dim: 139 147 158;
+    --color-ink-faint: 90 97 107;
+    --color-ink-ghost: 58 64 73;
+
+    --color-hair: rgba(255, 255, 255, 0.07);
+    --color-hair2: rgba(255, 255, 255, 0.12);
+    --bg-hair: rgba(255, 255, 255, 0.04);
+  }
+
+  .light-mode,
+  .light-mode body {
+    color-scheme: light;
+    
+    --color-signal: 13 148 136;
+    --color-signal-dim: 13 148 136;
+    --color-signal-deep: 204 251 241;
+    --color-flow: 37 99 235;
+    --color-flow-dim: 37 99 235;
+    --color-warn: 217 119 6;
+    --color-warn-dim: 217 119 6;
+    --color-critical: 220 38 38;
+    --color-critical-dim: 220 38 38;
+    --color-organic: 101 163 13;
+    --color-polymer: 124 58 237;
+    --color-glass: 8 145 178;
+    
+    /* Light Mode Equivalents */
+    --color-void: 248 250 252;
+    --color-base: 241 245 249;
+    --color-panel: 255 255 255;
+    --color-raised: 226 232 240;
+    
+    --color-ink: 15 23 42;
+    --color-ink-dim: 51 65 85;
+    --color-ink-faint: 71 85 105;
+    --color-ink-ghost: 100 116 139;
+
+    --color-hair: rgba(0, 0, 0, 0.12);
+    --color-hair2: rgba(0, 0, 0, 0.2);
+    --bg-hair: rgba(0, 0, 0, 0.06);
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-void text-ink font-sans antialiased;
+    margin: 0;
+    overflow: hidden;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'ss01';
+    overscroll-behavior: none;
+  }
+
+  ::selection {
+    background: rgb(var(--color-signal) / 0.24);
+    color: inherit;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* Restrained scrollbars — the interface should feel machined, not web-y */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--color-ink) / 0.1);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--color-ink) / 0.18);
+  }
+}
+
+@layer components {
+  /* Data labels: compact, technical, monospaced */
+  .label-tech {
+    @apply font-mono text-label uppercase tracking-[0.16em] text-ink-faint;
+  }
+
+  .data-value {
+    @apply font-mono tabular-nums;
+  }
+
+  /* Primary structural surface. Sharp corners, hairline border, no glass mush. */
+  .surface {
+    @apply relative border border-hair backdrop-blur-xl;
+    background-color: rgb(var(--color-panel) / 0.85);
+    background-image: linear-gradient(180deg, rgb(var(--color-ink) / 0.02), rgb(var(--color-ink) / 0));
+  }
+
+  .surface-flat {
+    @apply relative border border-hair bg-panel;
+  }
+
+  /* Corner ticks — the recurring "instrumentation" motif */
+  .ticks::before,
+  .ticks::after {
+    content: '';
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    pointer-events: none;
+  }
+  .ticks::before {
+    top: -1px;
+    left: -1px;
+    border-top: 1px solid rgb(var(--color-signal) / 0.5);
+    border-left: 1px solid rgb(var(--color-signal) / 0.5);
+  }
+  .ticks::after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 1px solid rgb(var(--color-signal) / 0.5);
+    border-right: 1px solid rgb(var(--color-signal) / 0.5);
+  }
+
+  .hair-grid {
+    background-image:
+      linear-gradient(to right, var(--bg-hair) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--bg-hair) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .focus-ring {
+    @apply outline-none focus-visible:ring-1 focus-visible:ring-signal/60 focus-visible:ring-offset-0;
+  }
+}
+
+@layer utilities {
+  .text-white {
+    color: rgb(var(--color-ink) / var(--tw-text-opacity, 1));
+  }
+  .bg-white {
+    background-color: rgb(var(--color-ink) / var(--tw-bg-opacity, 1));
+  }
+  .border-white {
+    border-color: rgb(var(--color-ink) / var(--tw-border-opacity, 1));
+  }
+
+  .text-shadow-hud {
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.85);
+  }
+
+  /* Film grain / scanline atmosphere, kept extremely subtle */
+  .atmos-noise::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='0.5'/></svg>");
+  }
+
+  .mask-fade-y {
+    mask-image: linear-gradient(to bottom, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Honor reduced-motion: atmosphere stays, movement stops */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Mouse cursors for the twin canvas */
+.cursor-grab-twin {
+  cursor: grab;
+}
+.cursor-grab-twin:active {
+  cursor: grabbing;
+}
